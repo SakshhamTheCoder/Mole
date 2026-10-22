@@ -940,7 +940,8 @@ function Show-AppSelectionMenu {
                     }
                 }
                 $totalSizeHuman = Format-ByteSize -Bytes ($totalSize * 1024)
-                Write-Host "$esc[33mSelected:$esc[0m $selectedCount apps ($totalSizeHuman)"
+                $noun = if ($selectedCount -eq 1) { 'app' } else { 'apps' }
+                Write-Host "$esc[33mSelected:$esc[0m $selectedCount $noun ($totalSizeHuman)"
             }
 
             # Page indicator

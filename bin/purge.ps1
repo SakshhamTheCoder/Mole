@@ -477,7 +477,7 @@ function Show-ProjectSelectionMenu {
                 }
 
                 $artifactCount = if ($null -eq $project.Artifacts) { 0 } else { @($project.Artifacts).Count }
-                $entry = Format-SizeListEntry -Name $project.Name -Size $project.TotalSizeHuman -Suffix " ($artifactCount items)" -NameWidth 32
+                $entry = Format-SizeListEntry -Name $project.Name -Size $project.TotalSizeHuman -Suffix " ($artifactCount $(if ($artifactCount -eq 1) { 'item' } else { 'items' }))" -NameWidth 32
                 Write-Host "  $checkbox $entry" -NoNewline
 
                 if ($isCurrent) {
@@ -497,13 +497,14 @@ function Show-ProjectSelectionMenu {
                     $totalSize += $Projects[$idx].TotalSizeKB
                 }
                 $totalSizeHuman = Format-ByteSize -Bytes ($totalSize * 1024)
-                Write-Host "$esc[33mSelected:$esc[0m $selectedCount projects ($totalSizeHuman)"
+                $noun = if ($selectedCount -eq 1) { 'project' } else { 'projects' }
+                Write-Host "$esc[33mSelected:$esc[0m $selectedCount $noun ($totalSizeHuman)"
             }
 
             # Page indicator
             $totalPages = [Math]::Ceiling($projectCount / $pageSize)
             $currentPage = [Math]::Floor($pageStart / $pageSize) + 1
-            Write-Host "$esc[90mPage $currentPage of $totalPages | Total: $projectCount projects$esc[0m"
+            Write-Host "$esc[90mPage $currentPage of $totalPages | Total: $projectCount $(if ($projectCount -eq 1) { 'project' } else { 'projects' })$esc[0m"
 
             # Handle input
             $key = [Console]::ReadKey($true)

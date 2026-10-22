@@ -748,12 +748,13 @@ function Remove-SafeItems {
         $script:TotalSizeCleaned += $sizeKB
         $script:FilesCleaned += $removedCount
         $script:TotalItems++
+        $noun = if ($removedCount -eq 1) { 'item' } else { 'items' }
         if ($script:MoleDryRunMode) {
-            Write-DryRun "$Description $($script:Colors.Yellow)($removedCount items, $sizeHuman dry)$($script:Colors.NC)"
+            Write-DryRun "$Description $($script:Colors.Yellow)($removedCount $noun, $sizeHuman dry)$($script:Colors.NC)"
             Add-DryRunListEntries -Description $Description -Paths $dryRunPaths.ToArray()
         }
         else {
-            Write-Success "$Description $($script:Colors.Green)($removedCount items, $sizeHuman)$($script:Colors.NC)"
+            Write-Success "$Description $($script:Colors.Green)($removedCount $noun, $sizeHuman)$($script:Colors.NC)"
         }
         Set-SectionActivity
     }

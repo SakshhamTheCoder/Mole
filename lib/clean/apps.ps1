@@ -151,7 +151,8 @@ function Clear-OrphanedAppData {
         $totalSize = ($significantOrphans | Measure-Object -Property Size -Sum).Sum
         $sizeHuman = Format-ByteSize -Bytes $totalSize
         
-        Write-Info "Found $($significantOrphans.Count) orphaned folders ($sizeHuman)"
+        $noun = if ($significantOrphans.Count -eq 1) { 'folder' } else { 'folders' }
+        Write-Info "Found $($significantOrphans.Count) orphaned $noun ($sizeHuman)"
         
         foreach ($orphan in $significantOrphans) {
             $orphanSize = Format-ByteSize -Bytes $orphan.Size

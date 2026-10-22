@@ -332,8 +332,9 @@ Describe 'Bounded local Windows Update inspection' {
     }
     It 'Reports <Expected> only after a complete result' -ForEach @(
         @{ Total = 0; Important = 0; Expected = 'No pending updates in the local catalog'; Issues = 0 },
-        @{ Total = 1; Important = 0; Expected = '1 optional updates available'; Issues = 0 },
-        @{ Total = 2; Important = 1; Expected = '1 important updates available'; Issues = 1 }
+        @{ Total = 1; Important = 0; Expected = '1 optional update available'; Issues = 0 },
+        @{ Total = 2; Important = 1; Expected = '1 important update available'; Issues = 1 },
+        @{ Total = 3; Important = 2; Expected = '2 important updates available'; Issues = 1 }
     ) {
         $script:UpdateResult = [pscustomobject]@{ Total = $Total; Important = $Important }
         $output = Test-WindowsUpdate 6>&1 | Out-String
@@ -367,7 +368,13 @@ Describe 'Bounded local Windows Update inspection' {
         $output = Test-WindowsUpdate 6>&1 | Out-String
         $script:UpdateSearcher.Online | Should -BeFalse
         $script:UpdateSearcher.Criteria | Should -Be 'IsInstalled=0'
-        $output | Should -Match '1 important updates available'
+        $output | Should -Match '1 important update available'
         $script:IssuesFound | Should -Be 1
+    }
+    It 'Clears the spinner before writing the result on its line' {
+        Mock Stop-Spinner { Write-Host 'SPINNER-STOPPED' }
+        $output = Test-WindowsUpdate 6>&1 | Out-String
+        $output | Should -Match 'SPINNER-STOPPED[\s\S]*No pending updates'
+        Should -Invoke Stop-Spinner -Exactly -Times 1
     }
 }

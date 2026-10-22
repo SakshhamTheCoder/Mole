@@ -307,7 +307,8 @@ function Get-StartupPrograms {
         $script:IssuesFound++
     }
     else {
-        Write-Host "  $esc[32m$($script:Icons.Success)$esc[0m $startupCount startup programs"
+        $noun = if ($startupCount -eq 1) { 'program' } else { 'programs' }
+        Write-Host "  $esc[32m$($script:Icons.Success)$esc[0m $startupCount startup $noun"
     }
 }
 
@@ -499,18 +500,21 @@ function Test-WindowsUpdate {
     try {
         # Query the local catalog in a disposable process: COM can stall even
         # without network access, and must not hold the maintenance command open.
-        $job = Start-Job -ScriptBlock {
-            $ErrorActionPreference = 'Stop'
-            $updateSession = New-Object -ComObject Microsoft.Update.Session
-            $updateSearcher = $updateSession.CreateUpdateSearcher()
-            $updateSearcher.Online = $false
-            $searchResult = $updateSearcher.Search("IsInstalled=0")
-            [pscustomobject]@{
-                Total = $searchResult.Updates.Count
-                Important = @($searchResult.Updates | Where-Object { $_.MsrcSeverity -in @('Critical', 'Important') }).Count
+        try {
+            $job = Start-Job -ScriptBlock {
+                $ErrorActionPreference = 'Stop'
+                $updateSession = New-Object -ComObject Microsoft.Update.Session
+                $updateSearcher = $updateSession.CreateUpdateSearcher()
+                $updateSearcher.Online = $false
+                $searchResult = $updateSearcher.Search("IsInstalled=0")
+                [pscustomobject]@{
+                    Total = $searchResult.Updates.Count
+                    Important = @($searchResult.Updates | Where-Object { $_.MsrcSeverity -in @('Critical', 'Important') }).Count
+                }
             }
+            $completed = Wait-Job -Job $job -Timeout 5
         }
-        $completed = Wait-Job -Job $job -Timeout 5
+        finally { Stop-Spinner } # Clear the line before any result is written on it.
         if (-not $completed -or $job.State -ne 'Completed') { throw 'Windows Update query did not complete' }
         $result = @(Receive-Job -Job $job -ErrorAction Stop)
         if ($result.Count -ne 1 -or $null -eq $result[0].Total -or $null -eq $result[0].Important -or
@@ -518,12 +522,14 @@ function Test-WindowsUpdate {
             throw 'Windows Update query returned an incomplete result'
         }
         if ($result[0].Important -gt 0) {
-            Write-Host "  $esc[33m$($script:Icons.Warning)$esc[0m $($result[0].Important) important updates available"
+            $noun = if ($result[0].Important -eq 1) { 'update' } else { 'updates' }
+            Write-Host "  $esc[33m$($script:Icons.Warning)$esc[0m $($result[0].Important) important $noun available"
             Write-Host "  $esc[90mRun Windows Update to install$esc[0m"
             $script:IssuesFound++
         }
         elseif ($result[0].Total -gt 0) {
-            Write-Host "  $esc[90m$($script:Icons.List)$esc[0m $($result[0].Total) optional updates available"
+            $noun = if ($result[0].Total -eq 1) { 'update' } else { 'updates' }
+            Write-Host "  $esc[90m$($script:Icons.List)$esc[0m $($result[0].Total) optional $noun available"
         }
         else {
             Write-Host "  $esc[32m$($script:Icons.Success)$esc[0m No pending updates in the local catalog"
@@ -533,7 +539,6 @@ function Test-WindowsUpdate {
         Write-Host "  $esc[90mCould not check Windows Update status$esc[0m"
     }
     finally {
-        Stop-Spinner
         if ($null -ne $job) {
             if ($job.State -notin @('Completed', 'Failed', 'Stopped')) { Stop-Job -Job $job -ErrorAction SilentlyContinue }
             Remove-Job -Job $job -Force -ErrorAction SilentlyContinue
