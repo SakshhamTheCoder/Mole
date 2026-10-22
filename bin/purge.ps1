@@ -344,11 +344,17 @@ function Get-PurgeProjectDirectories {
 }
 
 # Projects often share a folder name (frontend, backend, api), so lists show
-# the path, from ~ when it is under the profile.
+# the path, from ~ when it is under the profile. A search root keeps the form
+# written in the config (C:/code, ~\code), so only this label is normalized;
+# the project Path that removal checks stays as discovered.
 function Get-PurgeDisplayPath {
     param([string]$Path)
+    try { $Path = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path) }
+    catch { Write-Debug "Could not normalize purge label: $Path - $_" }
     $userHome = "$env:USERPROFILE".TrimEnd('\')
-    if ($userHome -and $Path.StartsWith("$userHome\", [StringComparison]::OrdinalIgnoreCase)) {
+    if (-not $userHome) { return $Path }
+    if ($Path.Equals($userHome, [StringComparison]::OrdinalIgnoreCase)) { return '~' }
+    if ($Path.StartsWith("$userHome\", [StringComparison]::OrdinalIgnoreCase)) {
         return '~' + $Path.Substring($userHome.Length)
     }
     return $Path
@@ -603,7 +609,7 @@ function Remove-ProjectArtifacts {
     Write-Host ""
 
     foreach ($project in $Projects) {
-        Write-Host "$esc[34m$($script:Icons.Arrow)$esc[0m $($project.Name)"
+        Write-Host "$esc[34m$($script:Icons.Arrow)$esc[0m $(Get-PurgeDisplayPath $project.Path)"
 
         foreach ($artifact in $project.Artifacts) {
             if (Test-Path -LiteralPath $artifact.Path) {

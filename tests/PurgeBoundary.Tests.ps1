@@ -165,6 +165,8 @@ Describe 'Purge project labels' {
     It 'shows paths under the profile from ~' {
         Get-PurgeDisplayPath 'C:\Users\dev\code\shop\frontend' | Should -BeExactly '~\code\shop\frontend'
         Get-PurgeDisplayPath 'c:\users\DEV\code\blog\frontend' | Should -BeExactly '~\code\blog\frontend'
+        Get-PurgeDisplayPath 'C:\Users\dev' | Should -BeExactly '~'
+        Get-PurgeDisplayPath 'C:/Users/dev/code/app' | Should -BeExactly '~\code\app'
     }
 
     It 'keeps other paths, including a profile prefix sibling, in full' {
@@ -183,6 +185,19 @@ Describe 'Purge project labels' {
         $labels = @(Find-Projects -SearchPaths @('C:\Users\dev\code') | ForEach-Object DisplayPath)
         $labels | Should -Contain '~\code\shop\frontend'
         $labels | Should -Contain '~\code\blog\frontend'
+    }
+
+    It 'names each project by its path while cleaning' {
+        $script:CleaningLines = @()
+        Mock Write-Host { $script:CleaningLines += "$Object" }
+        $profileRoot = Join-Path $TestDrive 'profile'
+        $env:USERPROFILE = $profileRoot
+        $projects = foreach ($parent in 'shop', 'blog') {
+            [pscustomobject]@{ Path = Join-Path $profileRoot "$parent\frontend"; Name = 'frontend'; Artifacts = @() }
+        }
+        Remove-ProjectArtifacts -Projects $projects
+        ($script:CleaningLines -join "`n") | Should -Match ([regex]::Escape('~\shop\frontend'))
+        ($script:CleaningLines -join "`n") | Should -Match ([regex]::Escape('~\blog\frontend'))
     }
 }
 
