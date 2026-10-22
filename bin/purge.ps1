@@ -343,6 +343,17 @@ function Get-PurgeProjectDirectories {
     }
 }
 
+# Projects often share a folder name (frontend, backend, api), so lists show
+# the path, from ~ when it is under the profile.
+function Get-PurgeDisplayPath {
+    param([string]$Path)
+    $userHome = "$env:USERPROFILE".TrimEnd('\')
+    if ($userHome -and $Path.StartsWith("$userHome\", [StringComparison]::OrdinalIgnoreCase)) {
+        return '~' + $Path.Substring($userHome.Length)
+    }
+    return $Path
+}
+
 function Find-Projects {
     param([string[]]$SearchPaths)
     $projects = @()
@@ -363,6 +374,7 @@ function Find-Projects {
             $projects += [pscustomobject]@{
                 Path = $project.Path
                 Name = Split-Path -Leaf $project.Path
+                DisplayPath = Get-PurgeDisplayPath $project.Path
                 Marker = $project.Marker
                 Artifacts = $artifacts
                 TotalSizeKB = $totalSize
@@ -477,7 +489,7 @@ function Show-ProjectSelectionMenu {
                 }
 
                 $artifactCount = if ($null -eq $project.Artifacts) { 0 } else { @($project.Artifacts).Count }
-                $entry = Format-SizeListEntry -Name $project.Name -Size $project.TotalSizeHuman -Suffix " ($artifactCount $(if ($artifactCount -eq 1) { 'item' } else { 'items' }))" -NameWidth 32
+                $entry = Format-SizeListEntry -Name $project.DisplayPath -Size $project.TotalSizeHuman -Suffix " ($artifactCount $(if ($artifactCount -eq 1) { 'item' } else { 'items' }))" -NameWidth 60 -KeepEnd
                 Write-Host "  $checkbox $entry" -NoNewline
 
                 if ($isCurrent) {
@@ -720,7 +732,7 @@ function Main {
     Write-Host ""
 
     foreach ($project in $selected) {
-        Write-Host "  $($script:Icons.List) $($project.Name) ($($project.TotalSizeHuman))"
+        Write-Host "  $($script:Icons.List) $($project.DisplayPath) ($($project.TotalSizeHuman))"
         foreach ($artifact in $project.Artifacts) {
             Write-Host "      $esc[90m$($artifact.Name) - $($artifact.SizeHuman)$esc[0m"
         }

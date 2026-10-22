@@ -157,6 +157,35 @@ Describe 'Purge project boundaries' {
     }
 }
 
+Describe 'Purge project labels' {
+    BeforeAll { $script:OldProfile = $env:USERPROFILE }
+    BeforeEach { $env:USERPROFILE = 'C:\Users\dev' }
+    AfterAll { $env:USERPROFILE = $script:OldProfile }
+
+    It 'shows paths under the profile from ~' {
+        Get-PurgeDisplayPath 'C:\Users\dev\code\shop\frontend' | Should -BeExactly '~\code\shop\frontend'
+        Get-PurgeDisplayPath 'c:\users\DEV\code\blog\frontend' | Should -BeExactly '~\code\blog\frontend'
+    }
+
+    It 'keeps other paths, including a profile prefix sibling, in full' {
+        Get-PurgeDisplayPath 'D:\work\shop\frontend' | Should -BeExactly 'D:\work\shop\frontend'
+        Get-PurgeDisplayPath 'C:\Users\dev2\shop\frontend' | Should -BeExactly 'C:\Users\dev2\shop\frontend'
+        $env:USERPROFILE = ''
+        Get-PurgeDisplayPath 'C:\Users\dev\shop\frontend' | Should -BeExactly 'C:\Users\dev\shop\frontend'
+    }
+
+    It 'labels same-named projects by their path' {
+        Mock Write-Progress {}
+        Mock Get-PurgeProjectDirectories { @(
+            [pscustomobject]@{ Path = 'C:\Users\dev\code\shop\frontend'; Marker = 'package.json' },
+            [pscustomobject]@{ Path = 'C:\Users\dev\code\blog\frontend'; Marker = 'package.json' }) }
+        Mock Find-ProjectArtifacts { [pscustomobject]@{ Name = 'node_modules'; SizeKB = 10 } }
+        $labels = @(Find-Projects -SearchPaths @('C:\Users\dev\code') | ForEach-Object DisplayPath)
+        $labels | Should -Contain '~\code\shop\frontend'
+        $labels | Should -Contain '~\code\blog\frontend'
+    }
+}
+
 AfterAll {
     # Git fixtures create read-only object files; clear only their attributes so
     # Pester can remove its own TestDrive after the tests.
