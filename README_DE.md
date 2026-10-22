@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows Menü" width="1000" />
+  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows Menü" width="736" />
 </p>
 
 > 💡 Dieser Branch ist das kostenlose Open-Source-Windows-CLI (`mo`). Lieber eine native App? [Mole for Windows](https://mole.fit/de/windows) ist ein separater Download mit Prüfung vor dem Löschen, App-Updates, Autostart-Verwaltung, Festplatten-Drill-down und Live-Status. Das macOS-CLI findest du im [main-Branch](https://github.com/tw93/Mole).
@@ -125,7 +125,7 @@ Hinweise zum Melden von Schwachstellen und zu den Sicherheitsgrenzen findest du 
 
 ## Funktionsdetails
 
-Die folgenden Beispiele sind gekürzt. Die genauen Einträge und Größen hängen von deinem PC ab.
+Die folgenden Screenshots stammen von einem Test-PC. Die genauen Einträge und Größen hängen von deinem PC ab.
 
 ### Bereinigung (Clean)
 
@@ -133,32 +133,7 @@ Die folgenden Beispiele sind gekürzt. Die genauen Einträge und Größen hänge
 mo clean --dry-run
 ```
 
-```
-Clean Your Windows
-
-Dry Run Mode - Preview only, no deletions
-
-⚙ Microsoft Windows 11 Pro | Free space: 100.34GB
-
-➤ User essentials
-  → User temp files (>7d old) (109 items, 529.3MB dry)
-  → Thumbnail cache (15 items, 11.1MB dry)
-  → Memory dumps (10 items, 72.0MB dry)
-
-➤ Browser caches
-  → Edge Cache (2 items, 95.0MB dry)
-  → Edge Code Cache (2 items, 26.5MB dry)
-
-➤ Developer tools
-  → NuGet HTTP cache (1 items, 596.1MB dry)
-
-Dry run complete - no changes made
-
-  Potential space: 1.32GB | Items: 176
-
-  Detailed list: C:\Users\you\.config\mole\clean-list.txt
-  Run without --dry-run to apply cleanup
-```
+<img src="./docs/img/clean-windows.png" alt="mo clean --dry-run Vorschau" width="736" />
 
 Die Detailliste enthält jeden Pfad, den die Vorschau gefunden hat. Kopiere beliebige Pfade daraus in die Whitelist, um sie zu behalten.
 
@@ -170,36 +145,7 @@ mo uninstall
 
 Listet die installierten Programme aus der Registry und den Windows-Apps nach Größe absteigend auf, entfernt dann die ausgewählten mit ihrem eigenen Deinstallationsprogramm und bereinigt den verbliebenen Installationsordner. `mo uninstall --dry-run` zeigt, welches Deinstallationsprogramm jede App verwenden würde und was entfernt würde, ohne etwas auszuführen.
 
-```text
-$ mo uninstall
-
-Select Applications to Uninstall
-
-Use: ↑↓ navigate | Space select | Enter confirm | Q quit | / search
-
-  [✓] VLC media player                              176.4MB
-  [✓] Notepad++ (64-bit x64)                         15.2MB
-  [ ] 7-Zip 24.08 (x64)                               5.6MB
-
-Selected: 2 apps (191.6MB)
-Page 1 of 1
-
-The following applications will be uninstalled:
-
-  • VLC media player (176.4MB)
-  • Notepad++ (64-bit x64) (15.2MB)
-
-Continue? (y/N): y
-
-Uninstalling Applications
-
-➤ Uninstalling: VLC media player ✓
-  Cleaning leftover files...
-➤ Uninstalling: Notepad++ (64-bit x64) ✓
-
-Uninstall Complete
-  Successfully uninstalled: 2
-```
+<img src="./docs/img/uninstall-windows.png" alt="mo uninstall App-Liste" width="736" />
 
 ### Optimierung (Optimize)
 
@@ -207,24 +153,7 @@ Uninstall Complete
 mo optimize --dry-run
 ```
 
-```
-Optimize and Maintain
-
- DRY RUN MODE - No changes will be made
-
-⚙ System  6.2/12GB RAM | 154/254GB Disk | Uptime 4.1d
-
-➤ DNS Cache
-  → Would flush DNS cache
-
-➤ Disk Health
-  ✓ harddisk SSD - Healthy
-
-Dry Run Complete - No Changes Made
-
-  Would apply 1 optimization
-  Run without --dry-run to apply changes
-```
+<img src="./docs/img/optimize-windows.png" alt="mo optimize --dry-run Vorschau" width="736" />
 
 Schritte wie die Festplattenoptimierung und das Leeren des ARP-Caches benötigen Administratorrechte und werden sonst übersprungen; führe PowerShell als Administrator aus, um sie einzuschließen.
 
@@ -235,7 +164,7 @@ mo analyze
 mo analyze D:\
 ```
 
-<img src="./docs/img/analyze-windows.png" alt="mo analyze Übersicht" width="1000" />
+<img src="./docs/img/analyze-windows.png" alt="mo analyze Übersicht" width="807" />
 
 Ein interaktiver Festplatten-Explorer mit demselben Aufbau wie die macOS-Version: Mit den Pfeiltasten navigierst du durch Ordner, `Backspace` geht zurück, `T` listet die größten Dateien, und `Del` verschiebt die ausgewählten Objekte nach einer Bestätigung in den Papierkorb.
 

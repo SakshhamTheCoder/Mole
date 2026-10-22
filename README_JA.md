@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows メニュー" width="1000" />
+  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows メニュー" width="736" />
 </p>
 
 > 💡 このブランチは無料のオープンソースWindows CLI（`mo`）です。ネイティブアプリがよければ、[Mole for Windows](https://mole.fit/ja/windows) を別途ダウンロードできます。削除前の確認、アプリの更新、スタートアップ管理、ディスクの階層分析、リアルタイムのステータス表示を備えています。macOS版CLIは [mainブランチ](https://github.com/tw93/Mole) にあります。
@@ -125,7 +125,7 @@ Moleはファイルを削除できるため、パスを検証し、システム�
 
 ## 機能詳細
 
-以下の表示例は抜粋です。実際の表示項目や容量は、ご利用のPCによって異なります。
+以下の画面はテスト用PCで撮影したものです。実際の表示項目や容量は、ご利用のPCによって異なります。
 
 ### ディープクリーン（Clean）
 
@@ -133,32 +133,7 @@ Moleはファイルを削除できるため、パスを検証し、システム�
 mo clean --dry-run
 ```
 
-```
-Clean Your Windows
-
-Dry Run Mode - Preview only, no deletions
-
-⚙ Microsoft Windows 11 Pro | Free space: 100.34GB
-
-➤ User essentials
-  → User temp files (>7d old) (109 items, 529.3MB dry)
-  → Thumbnail cache (15 items, 11.1MB dry)
-  → Memory dumps (10 items, 72.0MB dry)
-
-➤ Browser caches
-  → Edge Cache (2 items, 95.0MB dry)
-  → Edge Code Cache (2 items, 26.5MB dry)
-
-➤ Developer tools
-  → NuGet HTTP cache (1 items, 596.1MB dry)
-
-Dry run complete - no changes made
-
-  Potential space: 1.32GB | Items: 176
-
-  Detailed list: C:\Users\you\.config\mole\clean-list.txt
-  Run without --dry-run to apply cleanup
-```
+<img src="./docs/img/clean-windows.png" alt="mo clean --dry-run のプレビュー" width="736" />
 
 詳細リストには、プレビューで見つかったすべてのパスが記録されます。残したいパスは、リストからコピーしてホワイトリストに追加してください。
 
@@ -170,36 +145,7 @@ mo uninstall
 
 レジストリとWindowsアプリからインストール済みのプログラムを容量の大きい順に一覧表示し、選択したものを各アプリ自身のアンインストーラで削除して、残ったインストールフォルダも整理します。`mo uninstall --dry-run` なら、何も実行せずに、各アプリでどのアンインストーラが使われ、何が削除されるかを確認できます。
 
-```text
-$ mo uninstall
-
-Select Applications to Uninstall
-
-Use: ↑↓ navigate | Space select | Enter confirm | Q quit | / search
-
-  [✓] VLC media player                              176.4MB
-  [✓] Notepad++ (64-bit x64)                         15.2MB
-  [ ] 7-Zip 24.08 (x64)                               5.6MB
-
-Selected: 2 apps (191.6MB)
-Page 1 of 1
-
-The following applications will be uninstalled:
-
-  • VLC media player (176.4MB)
-  • Notepad++ (64-bit x64) (15.2MB)
-
-Continue? (y/N): y
-
-Uninstalling Applications
-
-➤ Uninstalling: VLC media player ✓
-  Cleaning leftover files...
-➤ Uninstalling: Notepad++ (64-bit x64) ✓
-
-Uninstall Complete
-  Successfully uninstalled: 2
-```
+<img src="./docs/img/uninstall-windows.png" alt="mo uninstall のアプリ一覧" width="736" />
 
 ### システム最適化（Optimize）
 
@@ -207,24 +153,7 @@ Uninstall Complete
 mo optimize --dry-run
 ```
 
-```
-Optimize and Maintain
-
- DRY RUN MODE - No changes will be made
-
-⚙ System  6.2/12GB RAM | 154/254GB Disk | Uptime 4.1d
-
-➤ DNS Cache
-  → Would flush DNS cache
-
-➤ Disk Health
-  ✓ harddisk SSD - Healthy
-
-Dry Run Complete - No Changes Made
-
-  Would apply 1 optimization
-  Run without --dry-run to apply changes
-```
+<img src="./docs/img/optimize-windows.png" alt="mo optimize --dry-run のプレビュー" width="736" />
 
 ディスクの最適化やARPキャッシュのフラッシュなどの処理は管理者権限が必要で、権限がない場合はスキップされます。これらを含めるには、PowerShellを管理者として実行してください。
 
@@ -235,7 +164,7 @@ mo analyze
 mo analyze D:\
 ```
 
-<img src="./docs/img/analyze-windows.png" alt="mo analyze 概要" width="1000" />
+<img src="./docs/img/analyze-windows.png" alt="mo analyze 概要" width="807" />
 
 macOS版と同じレイアウトのインタラクティブなディスク探索ツールです。矢印キーでフォルダを移動し、`Backspace` で戻り、`T` で大容量ファイルを一覧表示し、`Del` で選択した項目を確認後にごみ箱へ移動します。
 

@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows menu" width="1000" />
+  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows menu" width="736" />
 </p>
 
 > 💡 This branch is the free open-source Windows CLI (`mo`). Prefer a native app? [Mole for Windows](https://mole.fit/windows) is a separate download with review-before-delete cleanup, app updates, startup management, disk drill-downs, and live status. The macOS CLI lives on the [main branch](https://github.com/tw93/Mole).
@@ -125,7 +125,7 @@ Review [SECURITY.md](SECURITY.md) for reporting guidance and safety boundaries.
 
 ## Features in Detail
 
-The examples below are shortened. Available items and sizes depend on your PC.
+The screenshots below come from a test PC. Available items and sizes depend on your PC.
 
 ### Clean
 
@@ -133,32 +133,7 @@ The examples below are shortened. Available items and sizes depend on your PC.
 mo clean --dry-run
 ```
 
-```
-Clean Your Windows
-
-Dry Run Mode - Preview only, no deletions
-
-⚙ Microsoft Windows 11 Pro | Free space: 100.34GB
-
-➤ User essentials
-  → User temp files (>7d old) (109 items, 529.3MB dry)
-  → Thumbnail cache (15 items, 11.1MB dry)
-  → Memory dumps (10 items, 72.0MB dry)
-
-➤ Browser caches
-  → Edge Cache (2 items, 95.0MB dry)
-  → Edge Code Cache (2 items, 26.5MB dry)
-
-➤ Developer tools
-  → NuGet HTTP cache (1 items, 596.1MB dry)
-
-Dry run complete - no changes made
-
-  Potential space: 1.32GB | Items: 176
-
-  Detailed list: C:\Users\you\.config\mole\clean-list.txt
-  Run without --dry-run to apply cleanup
-```
+<img src="./docs/img/clean-windows.png" alt="mo clean --dry-run preview" width="736" />
 
 The detailed list holds every path the preview found. Copy any of them into the whitelist to keep it.
 
@@ -170,36 +145,7 @@ mo uninstall
 
 Lists installed programs from the registry and Windows Apps, largest first, then removes the ones you pick with their own uninstaller and cleans the leftover install folder. `mo uninstall --dry-run` shows which uninstaller each app would use and what would be removed, without running anything.
 
-```text
-$ mo uninstall
-
-Select Applications to Uninstall
-
-Use: ↑↓ navigate | Space select | Enter confirm | Q quit | / search
-
-  [✓] VLC media player                              176.4MB
-  [✓] Notepad++ (64-bit x64)                         15.2MB
-  [ ] 7-Zip 24.08 (x64)                               5.6MB
-
-Selected: 2 apps (191.6MB)
-Page 1 of 1
-
-The following applications will be uninstalled:
-
-  • VLC media player (176.4MB)
-  • Notepad++ (64-bit x64) (15.2MB)
-
-Continue? (y/N): y
-
-Uninstalling Applications
-
-➤ Uninstalling: VLC media player ✓
-  Cleaning leftover files...
-➤ Uninstalling: Notepad++ (64-bit x64) ✓
-
-Uninstall Complete
-  Successfully uninstalled: 2
-```
+<img src="./docs/img/uninstall-windows.png" alt="mo uninstall app list" width="736" />
 
 ### Optimize
 
@@ -207,24 +153,7 @@ Uninstall Complete
 mo optimize --dry-run
 ```
 
-```
-Optimize and Maintain
-
- DRY RUN MODE - No changes will be made
-
-⚙ System  6.2/12GB RAM | 154/254GB Disk | Uptime 4.1d
-
-➤ DNS Cache
-  → Would flush DNS cache
-
-➤ Disk Health
-  ✓ harddisk SSD - Healthy
-
-Dry Run Complete - No Changes Made
-
-  Would apply 1 optimization
-  Run without --dry-run to apply changes
-```
+<img src="./docs/img/optimize-windows.png" alt="mo optimize --dry-run preview" width="736" />
 
 Steps such as disk optimization and the ARP cache flush need administrator access and are skipped otherwise; run PowerShell as administrator to include them.
 
@@ -235,7 +164,7 @@ mo analyze
 mo analyze D:\
 ```
 
-<img src="./docs/img/analyze-windows.png" alt="mo analyze overview" width="1000" />
+<img src="./docs/img/analyze-windows.png" alt="mo analyze overview" width="807" />
 
 An interactive disk explorer with the same layout as the macOS version: arrow keys move through folders, `Backspace` goes back, `T` lists the largest files, and `Del` moves the selected items to the Recycle Bin after a confirmation.
 

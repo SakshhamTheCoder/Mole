@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows 選單介面" width="1000" />
+  <img src="./docs/img/mole-windows.png" alt="Mole CLI for Windows 選單介面" width="736" />
 </p>
 
 > 💡 這個分支是免費開源的 Windows 命令列工具（`mo`），喜歡圖形介面的話可以單獨下載 [Mole for Windows](https://mole.fit/tw/windows)，支援刪除前逐項確認、應用程式更新、啟動項目管理、逐層分析磁碟空間與即時狀態監控，macOS 命令列在 [main 分支](https://github.com/tw93/Mole)。
@@ -125,7 +125,7 @@ Mole 會刪除檔案，所以會先校驗路徑、保護系統和使用者設定
 
 ## 功能說明
 
-以下展示為縮減示例，具體顯示項與大小取決於你的電腦實際環境。
+以下截圖來自一台測試電腦，具體顯示項與大小取決於你的電腦實際環境。
 
 ### 深度清理（Clean）
 
@@ -133,32 +133,7 @@ Mole 會刪除檔案，所以會先校驗路徑、保護系統和使用者設定
 mo clean --dry-run
 ```
 
-```
-Clean Your Windows
-
-Dry Run Mode - Preview only, no deletions
-
-⚙ Microsoft Windows 11 Pro | Free space: 100.34GB
-
-➤ User essentials
-  → User temp files (>7d old) (109 items, 529.3MB dry)
-  → Thumbnail cache (15 items, 11.1MB dry)
-  → Memory dumps (10 items, 72.0MB dry)
-
-➤ Browser caches
-  → Edge Cache (2 items, 95.0MB dry)
-  → Edge Code Cache (2 items, 26.5MB dry)
-
-➤ Developer tools
-  → NuGet HTTP cache (1 items, 596.1MB dry)
-
-Dry run complete - no changes made
-
-  Potential space: 1.32GB | Items: 176
-
-  Detailed list: C:\Users\you\.config\mole\clean-list.txt
-  Run without --dry-run to apply cleanup
-```
+<img src="./docs/img/clean-windows.png" alt="mo clean --dry-run 預覽" width="736" />
 
 詳細清單裡是預覽找到的每一個路徑，想保留哪個，就把它複製進白名單。
 
@@ -170,36 +145,7 @@ mo uninstall
 
 從登錄檔和 Windows 應用程式中列出已安裝的程式，按佔用從大到小排序，選取的軟體會用它自己的解除安裝程式移除，再清理遺留的安裝資料夾，`mo uninstall --dry-run` 會顯示每個軟體將使用哪個解除安裝程式、會移除什麼，但不會執行任何東西。
 
-```text
-$ mo uninstall
-
-Select Applications to Uninstall
-
-Use: ↑↓ navigate | Space select | Enter confirm | Q quit | / search
-
-  [✓] VLC media player                              176.4MB
-  [✓] Notepad++ (64-bit x64)                         15.2MB
-  [ ] 7-Zip 24.08 (x64)                               5.6MB
-
-Selected: 2 apps (191.6MB)
-Page 1 of 1
-
-The following applications will be uninstalled:
-
-  • VLC media player (176.4MB)
-  • Notepad++ (64-bit x64) (15.2MB)
-
-Continue? (y/N): y
-
-Uninstalling Applications
-
-➤ Uninstalling: VLC media player ✓
-  Cleaning leftover files...
-➤ Uninstalling: Notepad++ (64-bit x64) ✓
-
-Uninstall Complete
-  Successfully uninstalled: 2
-```
+<img src="./docs/img/uninstall-windows.png" alt="mo uninstall 應用程式清單" width="736" />
 
 ### 系統最佳化（Optimize）
 
@@ -207,24 +153,7 @@ Uninstall Complete
 mo optimize --dry-run
 ```
 
-```
-Optimize and Maintain
-
- DRY RUN MODE - No changes will be made
-
-⚙ System  6.2/12GB RAM | 154/254GB Disk | Uptime 4.1d
-
-➤ DNS Cache
-  → Would flush DNS cache
-
-➤ Disk Health
-  ✓ harddisk SSD - Healthy
-
-Dry Run Complete - No Changes Made
-
-  Would apply 1 optimization
-  Run without --dry-run to apply changes
-```
+<img src="./docs/img/optimize-windows.png" alt="mo optimize --dry-run 預覽" width="736" />
 
 磁碟最佳化、重新整理 ARP 快取這類步驟需要管理員權限，否則會跳過，想包含它們就以管理員身份執行 PowerShell。
 
@@ -235,7 +164,7 @@ mo analyze
 mo analyze D:\
 ```
 
-<img src="./docs/img/analyze-windows.png" alt="mo analyze 概覽" width="1000" />
+<img src="./docs/img/analyze-windows.png" alt="mo analyze 概覽" width="807" />
 
 互動式磁碟瀏覽器，版面配置和 macOS 版一致，方向鍵在資料夾間移動，`Backspace` 返回，`T` 列出最大的檔案，`Del` 在確認後把選取的項目放進資源回收筒。
 

@@ -13,7 +13,7 @@
 </div>
 
 <p align="center">
-  <img src="./docs/img/mole-windows.png" alt="Menu de Mole CLI for Windows" width="1000" />
+  <img src="./docs/img/mole-windows.png" alt="Menu de Mole CLI for Windows" width="736" />
 </p>
 
 > 💡 Cette branche contient la CLI Windows open source gratuite (`mo`). Vous préférez une app native ? [Mole for Windows](https://mole.fit/fr/windows) se télécharge séparément : nettoyage avec vérification avant suppression, mises à jour des applications, gestion du démarrage, exploration détaillée du disque et état en direct. La CLI macOS se trouve sur la [branche main](https://github.com/tw93/Mole).
@@ -125,7 +125,7 @@ Consultez [SECURITY.md](SECURITY.md) pour la marche à suivre en cas de vulnéra
 
 ## Détail des fonctionnalités
 
-Les exemples suivants sont abrégés. Les éléments détectés et les tailles dépendent de votre PC.
+Les captures suivantes proviennent d'un PC de test. Les éléments détectés et les tailles dépendent de votre PC.
 
 ### Nettoyage (Clean)
 
@@ -133,32 +133,7 @@ Les exemples suivants sont abrégés. Les éléments détectés et les tailles d
 mo clean --dry-run
 ```
 
-```
-Clean Your Windows
-
-Dry Run Mode - Preview only, no deletions
-
-⚙ Microsoft Windows 11 Pro | Free space: 100.34GB
-
-➤ User essentials
-  → User temp files (>7d old) (109 items, 529.3MB dry)
-  → Thumbnail cache (15 items, 11.1MB dry)
-  → Memory dumps (10 items, 72.0MB dry)
-
-➤ Browser caches
-  → Edge Cache (2 items, 95.0MB dry)
-  → Edge Code Cache (2 items, 26.5MB dry)
-
-➤ Developer tools
-  → NuGet HTTP cache (1 items, 596.1MB dry)
-
-Dry run complete - no changes made
-
-  Potential space: 1.32GB | Items: 176
-
-  Detailed list: C:\Users\you\.config\mole\clean-list.txt
-  Run without --dry-run to apply cleanup
-```
+<img src="./docs/img/clean-windows.png" alt="Aperçu de mo clean --dry-run" width="736" />
 
 La liste détaillée contient tous les chemins trouvés par l'aperçu. Copiez-en dans la liste blanche pour les conserver.
 
@@ -170,36 +145,7 @@ mo uninstall
 
 Liste les programmes installés à partir du registre et des applications Windows, du plus volumineux au plus petit, puis supprime ceux que vous choisissez avec leur propre désinstalleur et nettoie le dossier d'installation résiduel. `mo uninstall --dry-run` indique quel désinstalleur serait utilisé pour chaque application et ce qui serait supprimé, sans rien exécuter.
 
-```text
-$ mo uninstall
-
-Select Applications to Uninstall
-
-Use: ↑↓ navigate | Space select | Enter confirm | Q quit | / search
-
-  [✓] VLC media player                              176.4MB
-  [✓] Notepad++ (64-bit x64)                         15.2MB
-  [ ] 7-Zip 24.08 (x64)                               5.6MB
-
-Selected: 2 apps (191.6MB)
-Page 1 of 1
-
-The following applications will be uninstalled:
-
-  • VLC media player (176.4MB)
-  • Notepad++ (64-bit x64) (15.2MB)
-
-Continue? (y/N): y
-
-Uninstalling Applications
-
-➤ Uninstalling: VLC media player ✓
-  Cleaning leftover files...
-➤ Uninstalling: Notepad++ (64-bit x64) ✓
-
-Uninstall Complete
-  Successfully uninstalled: 2
-```
+<img src="./docs/img/uninstall-windows.png" alt="Liste des apps de mo uninstall" width="736" />
 
 ### Optimisation (Optimize)
 
@@ -207,24 +153,7 @@ Uninstall Complete
 mo optimize --dry-run
 ```
 
-```
-Optimize and Maintain
-
- DRY RUN MODE - No changes will be made
-
-⚙ System  6.2/12GB RAM | 154/254GB Disk | Uptime 4.1d
-
-➤ DNS Cache
-  → Would flush DNS cache
-
-➤ Disk Health
-  ✓ harddisk SSD - Healthy
-
-Dry Run Complete - No Changes Made
-
-  Would apply 1 optimization
-  Run without --dry-run to apply changes
-```
+<img src="./docs/img/optimize-windows.png" alt="Aperçu de mo optimize --dry-run" width="736" />
 
 Certaines étapes, comme l'optimisation du disque et la purge du cache ARP, nécessitent un accès administrateur et sont ignorées sans lui ; lancez PowerShell en tant qu'administrateur pour les inclure.
 
@@ -235,7 +164,7 @@ mo analyze
 mo analyze D:\
 ```
 
-<img src="./docs/img/analyze-windows.png" alt="Vue d'ensemble de mo analyze" width="1000" />
+<img src="./docs/img/analyze-windows.png" alt="Vue d'ensemble de mo analyze" width="807" />
 
 Un explorateur de disque interactif avec la même disposition que la version macOS : les touches fléchées parcourent les dossiers, `Backspace` revient en arrière, `T` liste les plus gros fichiers et `Del` déplace les éléments sélectionnés vers la Corbeille après confirmation.
 
